@@ -22,6 +22,7 @@ import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.linkTo;
 @RequestMapping("api/recipes")
 @Validated
 public class RecipeController {
+    //TODO: Add another abstract layer for controllers and services as well
     @Autowired
     private RecipeService recipeService;
 
@@ -35,7 +36,6 @@ public class RecipeController {
         return ResponseEntity.ok(CollectionModel.of(recipeDTOs));
     }
 
-    // TODO: To understand functional interface and reference methods
     @GetMapping("/{id}")
     public ResponseEntity<RecipeDTO> getRecipe(@Min(1) @PathVariable long id) {
         return recipeService.findById(id)

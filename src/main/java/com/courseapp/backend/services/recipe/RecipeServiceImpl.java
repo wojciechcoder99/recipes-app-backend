@@ -3,6 +3,7 @@ package com.courseapp.backend.services.recipe;
 import com.courseapp.backend.model.recipe.Recipe;
 import com.courseapp.backend.model.recipe.RecipeDTO;
 import com.courseapp.backend.repositories.RecipeRepository;
+import com.courseapp.backend.services.ConvertToEntityOrDto;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -11,7 +12,7 @@ import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Service
-public class RecipeServiceImpl implements RecipeService {
+public class RecipeServiceImpl implements RecipeService, ConvertToEntityOrDto<Recipe, RecipeDTO> {
 
     @Autowired
     private ModelMapper modelMapper;
@@ -57,11 +58,13 @@ public class RecipeServiceImpl implements RecipeService {
         return Optional.empty();
     }
 
-    private Recipe convertToEntity(RecipeDTO recipe) {
+    @Override
+    public Recipe convertToEntity(RecipeDTO recipe) {
         return modelMapper.map(recipe, Recipe.class);
     }
 
-    private RecipeDTO convertToDTO(Recipe recipe) {
+    @Override
+    public RecipeDTO convertToDTO(Recipe recipe) {
         return modelMapper.map(recipe, RecipeDTO.class);
     }
 }

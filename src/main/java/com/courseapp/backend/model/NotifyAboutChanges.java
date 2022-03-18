@@ -1,6 +1,5 @@
 package com.courseapp.backend.model;
 
-import javax.persistence.*;
 
 public interface NotifyAboutChanges {
     String SUCCESSFULLY_SAVED = "An object has been saved successfully!";
