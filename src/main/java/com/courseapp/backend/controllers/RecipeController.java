@@ -83,7 +83,7 @@ public class RecipeController {
                 .slash(recipeDTO.getId())
                 .withSelfRel());
     }
-    
+
     private RecipeDTO addLinkToCollection(RecipeDTO recipeDTO) {
         return recipeDTO.add(linkTo(RecipeDTO.class)
                 .slash("api")
