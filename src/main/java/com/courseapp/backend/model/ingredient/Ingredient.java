@@ -1,15 +1,12 @@
 package com.courseapp.backend.model.ingredient;
 
 import com.courseapp.backend.model.BaseEntity;
-import com.courseapp.backend.model.NotifyAboutChanges;
 
 import com.courseapp.backend.model.recipe.Recipe;
 import com.sun.istack.NotNull;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
-import org.hibernate.annotations.CascadeType;
-import org.hibernate.annotations.Cascade;
 
 import javax.persistence.*;
 

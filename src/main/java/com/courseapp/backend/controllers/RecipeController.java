@@ -1,7 +1,7 @@
 package com.courseapp.backend.controllers;
 
 import com.courseapp.backend.model.recipe.RecipeDTO;
-import com.courseapp.backend.services.recipe.RecipeService;
+import com.courseapp.backend.services.BaseService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.hateoas.CollectionModel;
 import org.springframework.http.HttpStatus;
@@ -22,9 +22,9 @@ import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.linkTo;
 @RequestMapping("api/recipes")
 @Validated
 public class RecipeController {
-    //TODO: Add another abstract layer for controllers and services as well
+    //TODO: Add another abstract layer for controllers
     @Autowired
-    private RecipeService recipeService;
+    private BaseService<RecipeDTO> recipeService;
 
     @GetMapping
     public ResponseEntity<Iterable<RecipeDTO>> getALlRecipes() {

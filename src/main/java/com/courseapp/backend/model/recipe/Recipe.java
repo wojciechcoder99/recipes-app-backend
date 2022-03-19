@@ -1,7 +1,6 @@
 package com.courseapp.backend.model.recipe;
 
 import com.courseapp.backend.model.BaseEntity;
-import com.courseapp.backend.model.NotifyAboutChanges;
 import com.courseapp.backend.model.ingredient.Ingredient;
 import com.sun.istack.NotNull;
 import lombok.Getter;
@@ -13,7 +12,6 @@ import org.hibernate.annotations.Cascade;
 import javax.persistence.*;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Pattern;
-import java.util.List;
 import java.util.Set;
 
 @Entity
@@ -21,7 +19,7 @@ import java.util.Set;
 @Setter
 @NoArgsConstructor
 @Table(name = "recipes")
-public class Recipe  {
+public class Recipe {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name ="recipe_id")
