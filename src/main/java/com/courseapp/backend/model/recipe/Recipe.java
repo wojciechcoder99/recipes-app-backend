@@ -20,9 +20,10 @@ import java.util.Set;
 @Getter
 @Setter
 @NoArgsConstructor
-public class Recipe extends BaseEntity {
+@Table(name = "recipes")
+public class Recipe  {
     @Id
-    @GeneratedValue(strategy = GenerationType.TABLE)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name ="recipe_id")
     private long id;
 
@@ -35,6 +36,9 @@ public class Recipe extends BaseEntity {
     private String imagePath;
 
     @OneToMany(mappedBy = "recipe")
-    @Cascade({CascadeType.DETACH, CascadeType.MERGE, CascadeType.PERSIST, CascadeType.REFRESH})
+    @Cascade({CascadeType.ALL})
     private Set<Ingredient> ingredients;
+
+    @Embedded
+    private BaseEntity baseEntity = new BaseEntity();
 }

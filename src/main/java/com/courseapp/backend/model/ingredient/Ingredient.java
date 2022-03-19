@@ -17,7 +17,8 @@ import javax.persistence.*;
 @Getter
 @Setter
 @NoArgsConstructor
-public class Ingredient extends BaseEntity {
+@Table(name = "ingredients")
+public class Ingredient {
         @Id
         @GeneratedValue(strategy = GenerationType.IDENTITY)
         @Column(name ="ing_id")
@@ -30,8 +31,10 @@ public class Ingredient extends BaseEntity {
         int amount;
 
         @ManyToOne
-        @Cascade({CascadeType.DETACH, CascadeType.MERGE, CascadeType.PERSIST, CascadeType.REFRESH})
         @JoinColumn(name = "recipe_id")
         private Recipe recipe;
+
+        @Embedded
+        private BaseEntity baseEntity = new BaseEntity();
 
 }

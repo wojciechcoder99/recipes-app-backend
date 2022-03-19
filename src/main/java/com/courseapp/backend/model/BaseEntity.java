@@ -2,8 +2,8 @@ package com.courseapp.backend.model;
 
 import javax.persistence.*;
 
-@MappedSuperclass
-public abstract class BaseEntity implements NotifyAboutChanges {
+@Embeddable
+public class BaseEntity implements NotifyAboutChanges {
     @PostLoad
     @Override
     public void afterLoad() {
