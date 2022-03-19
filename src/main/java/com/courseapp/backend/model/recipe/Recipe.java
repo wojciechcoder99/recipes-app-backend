@@ -1,11 +1,14 @@
 package com.courseapp.backend.model.recipe;
 
+import com.courseapp.backend.model.BaseEntity;
 import com.courseapp.backend.model.NotifyAboutChanges;
 import com.courseapp.backend.model.ingredient.Ingredient;
 import com.sun.istack.NotNull;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import org.hibernate.annotations.CascadeType;
+import org.hibernate.annotations.Cascade;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotBlank;
@@ -17,9 +20,10 @@ import java.util.Set;
 @Getter
 @Setter
 @NoArgsConstructor
-public class Recipe implements NotifyAboutChanges {
+public class Recipe extends BaseEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.TABLE)
+    @Column(name ="recipe_id")
     private long id;
 
     @NotNull
@@ -31,29 +35,6 @@ public class Recipe implements NotifyAboutChanges {
     private String imagePath;
 
     @OneToMany(mappedBy = "recipe")
+    @Cascade({CascadeType.DETACH, CascadeType.MERGE, CascadeType.PERSIST, CascadeType.REFRESH})
     private Set<Ingredient> ingredients;
-
-    @PostLoad
-    @Override
-    public void afterLoad() {
-        NotifyAboutChanges.super.afterLoad();
-    }
-
-    @PostPersist
-    @Override
-    public void afterSave() {
-        NotifyAboutChanges.super.afterSave();
-    }
-
-    @PostUpdate
-    @Override
-    public void afterUpdate() {
-        NotifyAboutChanges.super.afterUpdate();
-    }
-
-    @PostRemove
-    @Override
-    public void afterRemove() {
-        NotifyAboutChanges.super.afterRemove();
-    }
 }

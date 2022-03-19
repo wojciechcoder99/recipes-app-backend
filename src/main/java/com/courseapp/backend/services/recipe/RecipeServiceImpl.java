@@ -8,6 +8,7 @@ import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import javax.transaction.Transactional;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
@@ -33,21 +34,24 @@ public class RecipeServiceImpl implements RecipeService, ConvertToEntityOrDto<Re
         return recipeRepository.findById(id).map(this::convertToDTO);
     }
 
+    @Transactional
     @Override
     public Optional<RecipeDTO> save(Optional<RecipeDTO> recipe) {
         return recipe.map(o -> convertToDTO(recipeRepository.save(convertToEntity(o))));
     }
 
+    @Transactional
     @Override
     public Optional<RecipeDTO> update(long id, Optional<RecipeDTO> recipe) {
         if (recipe.isPresent() &&
                 recipeRepository.existsById(recipe.get().getId()) &&
                 recipe.get().getId() == id) {
-            return recipe.map(o -> convertToDTO(recipeRepository.save(convertToEntity(o))));
+             return recipe.map(o -> convertToDTO(recipeRepository.save(convertToEntity(o))));
         }
         return Optional.empty();
     }
 
+    @Transactional
     @Override
     public Optional<RecipeDTO> deleteById(long id) {
         if (recipeRepository.existsById(id)) {
