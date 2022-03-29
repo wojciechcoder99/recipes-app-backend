@@ -2,10 +2,12 @@ package com.courseapp.backend.services;
 
 import java.util.Optional;
 
-public interface BaseService<D> {
-    Iterable<D> findAll();
-    Optional<D> findById(long id);
-    Optional<D> save(Optional<D> recipe);
-    Optional<D> update(long id, Optional<D> recipe);
-    Optional<D> deleteById(long id);
+public interface BaseService<GenericDTO, GenericEntity> extends
+        BaseConverter<GenericDTO, GenericEntity> {
+    Iterable<GenericDTO> findAll();
+    Optional<GenericDTO> findById(long id);
+    Optional<GenericDTO> save(Optional<GenericDTO> dto);
+    Optional<GenericDTO> update(long id, Optional<GenericDTO> dto);
+    Optional<GenericDTO> deleteById(long id);
+    Iterable<GenericDTO> saveAll(Iterable<GenericDTO> dto);
 }

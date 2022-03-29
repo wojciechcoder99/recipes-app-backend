@@ -1,60 +1,63 @@
 package com.courseapp.backend.services;
 
+import com.courseapp.backend.model.ingredient.Ingredient;
+import com.courseapp.backend.model.ingredient.IngredientDTO;
+import com.courseapp.backend.model.recipe.Recipe;
+import com.courseapp.backend.model.recipe.RecipeDTO;
 import com.courseapp.backend.repositories.IGenericRepository;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Propagation;
+import org.springframework.transaction.annotation.Transactional;
 
-import javax.transaction.Transactional;
 import java.util.Optional;
 import java.util.stream.Collectors;
+import java.util.stream.StreamSupport;
 
-public abstract class BaseServiceImpl<E, D> implements BaseService<D>{
+@Transactional
+public abstract class BaseServiceImpl<GenericEntity, GenericDTO> implements BaseService<GenericDTO, GenericEntity>{
 
     @Autowired
     protected ModelMapper modelMapper;
-
-    protected abstract IGenericRepository<E, Long> getRepositoryInstance();
-    public abstract E convertToEntity(D dto);
-    public abstract D convertToDTO(E entity);
-    protected abstract boolean isEntityExistsAndMatchId(long id, Optional<D> dto);
+    protected abstract IGenericRepository<GenericEntity, Long> getRepositoryInstance();
+    protected abstract boolean isEntityExistsAndMatchId(long id, Optional<GenericDTO> dto);
 
     @Override
-    public Iterable<D> findAll() {
-        return getRepositoryInstance().findAll()
-                .stream()
-                .map(this::convertToDTO)
-                .collect(Collectors.toList());
+    public Iterable<GenericDTO> findAll() {
+        return convertToCollectionOfDTOs(getRepositoryInstance().findAll());
     }
 
     @Override
-    public Optional<D> findById(long id) {
+    public Optional<GenericDTO> findById(long id) {
         return getRepositoryInstance().findById(id).map(this::convertToDTO);
     }
 
-    @Transactional
     @Override
-    public Optional<D> save(Optional<D> dto) {
+    public Optional<GenericDTO> save(Optional<GenericDTO> dto) {
         return dto.map(o -> convertToDTO(getRepositoryInstance().save(convertToEntity(o))));
     }
 
-    @Transactional
     @Override
-    public Optional<D> update(long id, Optional<D> dto) {
+    public Optional<GenericDTO> update(long id, Optional<GenericDTO> dto) {
         if (dto.isPresent() && isEntityExistsAndMatchId(id, dto)) {
             return dto.map(o -> convertToDTO(getRepositoryInstance().save(convertToEntity(o))));
         }
         return Optional.empty();
     }
 
-    @Transactional
     @Override
-    public Optional<D> deleteById(long id) {
+    public Optional<GenericDTO> deleteById(long id) {
         if (getRepositoryInstance().existsById(id)) {
-            Optional<D> deleted = getRepositoryInstance().findById(id).map(this::convertToDTO);
+            Optional<GenericDTO> deleted = getRepositoryInstance().findById(id).map(this::convertToDTO);
             getRepositoryInstance().deleteById(id);
             return deleted;
         }
         return Optional.empty();
+    }
+
+    @Override
+    public Iterable<GenericDTO> saveAll(Iterable<GenericDTO> dto) {
+        return convertToCollectionOfDTOs(getRepositoryInstance().saveAll(convertToCollectionOfEntities(dto)));
     }
 }

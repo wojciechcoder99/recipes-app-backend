@@ -2,7 +2,9 @@ package com.courseapp.backend.model.ingredient;
 
 import com.courseapp.backend.model.BaseEntity;
 
+import com.courseapp.backend.model.GenericEntity;
 import com.courseapp.backend.model.recipe.Recipe;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.sun.istack.NotNull;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -15,7 +17,7 @@ import javax.persistence.*;
 @Setter
 @NoArgsConstructor
 @Table(name = "ingredients")
-public class Ingredient {
+public class Ingredient implements GenericEntity {
         @Id
         @GeneratedValue(strategy = GenerationType.IDENTITY)
         @Column(name ="ing_id")
@@ -27,11 +29,16 @@ public class Ingredient {
         @NotNull
         int amount;
 
-        @ManyToOne
-        @JoinColumn(name = "recipe_id")
-        private Recipe recipe;
-
         @Embedded
+        @JsonIgnore
         private BaseEntity baseEntity = new BaseEntity();
 
+        @Override
+        public String toString() {
+                return "Ingredient{" +
+                        "id=" + id +
+                        ", name='" + name + '\'' +
+                        ", amount=" + amount +
+                        '}';
+        }
 }

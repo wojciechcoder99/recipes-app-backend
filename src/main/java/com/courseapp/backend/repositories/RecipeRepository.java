@@ -10,6 +10,6 @@ import java.util.List;
 @Repository
 public interface RecipeRepository extends IGenericRepository<Recipe, Long> {
     @Override
-    @Query("from Recipe r join fetch r.ingredients")
+    @Query("from Recipe r left join fetch r.ingredients")
     List<Recipe> findAll();
 }
