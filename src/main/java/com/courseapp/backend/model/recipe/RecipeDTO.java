@@ -18,6 +18,14 @@ public class RecipeDTO extends RepresentationModel<RecipeDTO> implements Generic
     String imagePath;
     Iterable<IngredientDTO> ingredients;
 
+    public RecipeDTO(long id, String name, String description, String imagePath, Iterable<IngredientDTO> ingredients) {
+        this.id = id;
+        this.name = name;
+        this.description = description;
+        this.imagePath = imagePath;
+        this.ingredients = ingredients;
+    }
+
     @Override
     public String toString() {
         return "RecipeDTO{" +

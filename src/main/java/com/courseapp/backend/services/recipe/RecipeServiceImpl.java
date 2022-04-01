@@ -27,11 +27,15 @@ import java.util.stream.StreamSupport;
 @Service
 public class RecipeServiceImpl extends BaseServiceImpl<Recipe, RecipeDTO> {
 
-    @Autowired
-    private RecipeRepository recipeRepository;
+    private final RecipeRepository recipeRepository;
 
-    @Autowired
-    private BaseService<IngredientDTO, Ingredient> ingredientService;
+    private final BaseService<IngredientDTO, Ingredient> ingredientService;
+
+    public RecipeServiceImpl(ModelMapper modelMapper, RecipeRepository recipeRepository, BaseService<IngredientDTO, Ingredient> ingredientService) {
+        super(modelMapper);
+        this.recipeRepository = recipeRepository;
+        this.ingredientService = ingredientService;
+    }
 
     @Override
     protected IGenericRepository<Recipe, Long> getRepositoryInstance() {

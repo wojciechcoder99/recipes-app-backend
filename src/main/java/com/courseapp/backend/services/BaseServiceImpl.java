@@ -18,8 +18,12 @@ import java.util.stream.StreamSupport;
 @Transactional
 public abstract class BaseServiceImpl<GenericEntity, GenericDTO> implements BaseService<GenericDTO, GenericEntity>{
 
-    @Autowired
-    protected ModelMapper modelMapper;
+    protected final ModelMapper modelMapper;
+
+    public BaseServiceImpl(ModelMapper modelMapper) {
+        this.modelMapper = modelMapper;
+    }
+
     protected abstract IGenericRepository<GenericEntity, Long> getRepositoryInstance();
     protected abstract boolean isEntityExistsAndMatchId(long id, Optional<GenericDTO> dto);
 

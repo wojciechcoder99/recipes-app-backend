@@ -17,8 +17,12 @@ import java.util.stream.StreamSupport;
 @Service
 public class IngredientServiceImpl extends BaseServiceImpl<Ingredient, IngredientDTO> {
 
-    @Autowired
-    private IngredientRepository ingredientRepository;
+    private final IngredientRepository ingredientRepository;
+
+    public IngredientServiceImpl(ModelMapper modelMapper, IngredientRepository ingredientRepository) {
+        super(modelMapper);
+        this.ingredientRepository = ingredientRepository;
+    }
 
     @Override
     protected IGenericRepository<Ingredient, Long> getRepositoryInstance() {
