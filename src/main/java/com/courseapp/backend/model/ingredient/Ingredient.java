@@ -6,6 +6,7 @@ import com.courseapp.backend.model.GenericEntity;
 import com.courseapp.backend.model.recipe.Recipe;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.sun.istack.NotNull;
+import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -28,6 +29,12 @@ public class Ingredient implements GenericEntity {
 
         @NotNull
         int amount;
+
+        public Ingredient(long id, String name, int amount) {
+                this.id = id;
+                this.name = name;
+                this.amount = amount;
+        }
 
         @Embedded
         @JsonIgnore

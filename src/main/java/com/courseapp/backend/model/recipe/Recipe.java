@@ -4,9 +4,7 @@ import com.courseapp.backend.model.BaseEntity;
 import com.courseapp.backend.model.GenericEntity;
 import com.courseapp.backend.model.ingredient.Ingredient;
 import com.sun.istack.NotNull;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotBlank;
@@ -38,6 +36,14 @@ public class Recipe implements GenericEntity {
 
     @Embedded
     private BaseEntity baseEntity = new BaseEntity();
+
+    public Recipe(long id, String name, String description, String imagePath, Set<Ingredient> ingredients) {
+        this.id = id;
+        this.name = name;
+        this.description = description;
+        this.imagePath = imagePath;
+        this.ingredients = ingredients;
+    }
 
     @Override
     public String toString() {
