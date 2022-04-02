@@ -3,7 +3,6 @@ package com.courseapp.backend.services.ingredient;
 import com.courseapp.backend.model.ingredient.Ingredient;
 import com.courseapp.backend.model.ingredient.IngredientDTO;
 import com.courseapp.backend.repositories.IngredientRepository;
-import com.courseapp.backend.services.BaseServiceImpl;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -12,8 +11,6 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.MockitoJUnitRunner;
 import org.modelmapper.ModelMapper;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 
 import static com.courseapp.backend.IngredientDataFactory.*;
@@ -64,8 +61,8 @@ class IngredientServiceImplTest {
     @Test
     void testConvertToCollectionOfEntities() {
         // given
-        Iterable<IngredientDTO> toConvert = createIngredientDTOsCollection();
-        Iterable<Ingredient> expected = createIngredientsCollection();
+        Iterable<IngredientDTO> toConvert = createCollectionOfIngredientDTOs();
+        Iterable<Ingredient> expected = createCollectionOfIngredients();
         when(ingredientService.convertToEntity(createIngredientDTO())).thenReturn(createIngredient());
         // when
         Iterable<Ingredient> actual = ingredientService.convertToCollectionOfEntities(toConvert);
@@ -76,8 +73,8 @@ class IngredientServiceImplTest {
     @Test
     void testConvertToCollectionOfDTOs() {
         // given
-        Iterable<Ingredient> toConvert = createIngredientsCollection();
-        Iterable<IngredientDTO> expected = createIngredientDTOsCollection();
+        Iterable<Ingredient> toConvert = createCollectionOfIngredients();
+        Iterable<IngredientDTO> expected = createCollectionOfIngredientDTOs();
         when(ingredientService.convertToDTO(createIngredient())).thenReturn(createIngredientDTO());
         // when
         Iterable<IngredientDTO> actual = ingredientService.convertToCollectionOfDTOs(toConvert);

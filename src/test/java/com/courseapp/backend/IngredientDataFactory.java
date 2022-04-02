@@ -15,10 +15,10 @@ public final class IngredientDataFactory {
         return testingIngredientDTO;
     }
 
-    public static Iterable<IngredientDTO> createIngredientDTOsCollection() {
+    public static Iterable<IngredientDTO> createCollectionOfIngredientDTOs() {
         return Collections.singletonList(createIngredientDTO());
     }
-    public static Iterable<Ingredient> createIngredientsCollection() {
+    public static Iterable<Ingredient> createCollectionOfIngredients() {
         return Collections.singletonList(createIngredient());
     }
 }

@@ -9,7 +9,7 @@ import org.mockito.junit.MockitoJUnitRunner;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 import java.util.List;
 
-import static com.courseapp.backend.RecipeDataFactory.initRecipesList;
+import static com.courseapp.backend.RecipeDataFactory.createRecipesCollection;
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.when;
 
@@ -25,7 +25,7 @@ class RecipeRepositoryTest  {
         // given
         int expectedListSize = 2;
         // when
-        when(recipeRepository.findAll()).thenReturn(initRecipesList());
+        when(recipeRepository.findAll()).thenReturn(createRecipesCollection());
         List<Recipe> list = recipeRepository.findAll();
         // then
         assertEquals(expectedListSize, list.size());

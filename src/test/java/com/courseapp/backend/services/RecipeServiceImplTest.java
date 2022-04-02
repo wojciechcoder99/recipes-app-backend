@@ -5,6 +5,7 @@ import com.courseapp.backend.repositories.IngredientRepository;
 import com.courseapp.backend.repositories.RecipeRepository;
 import com.courseapp.backend.services.ingredient.IngredientServiceImpl;
 import com.courseapp.backend.services.recipe.RecipeServiceImpl;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.junit.runner.RunWith;
@@ -18,30 +19,37 @@ import java.util.List;
 import static com.courseapp.backend.RecipeDataFactory.*;
 import static org.junit.jupiter.api.Assertions.*;
 
-import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
 @RunWith(MockitoJUnitRunner.class)
 @ExtendWith(SpringExtension.class)
 class RecipeServiceImplTest {
 
-    @InjectMocks
-    private RecipeServiceImpl recipeService;
-    @InjectMocks
-    private IngredientServiceImpl ingredientService;
-    @InjectMocks
+    @Mock
     private ModelMapper modelMapper;
     @Mock
     private RecipeRepository recipeRepository;
     @Mock
     private IngredientRepository ingredientRepository;
+    @InjectMocks
+    private RecipeServiceImpl recipeService;
+    @InjectMocks
+    private IngredientServiceImpl ingredientService;
+
+    @BeforeEach
+    void setUp() {
+        ingredientService = new IngredientServiceImpl(modelMapper, ingredientRepository);
+        recipeService = new RecipeServiceImpl(modelMapper, recipeRepository, ingredientService);
+    }
 
     @Test
     public void testFindAll() {
         // given
         int expectedListSize = 2;
+        when(recipeService.convertToCollectionOfDTOs(createRecipesCollection()))
+                .thenReturn(createRecipeDTOsCollection());
+        when(recipeRepository.findAll()).thenReturn(createRecipesCollection());
         // when
-        when(recipeRepository.findAll()).thenReturn(initRecipesList());
         List<RecipeDTO> result = (List<RecipeDTO>) recipeService.findAll();
         // then
         assertEquals(expectedListSize, result.size());
@@ -98,7 +106,6 @@ class RecipeServiceImplTest {
 
     @Test
     void testConvertToCollectionOfEntities() {
-        // TODO: finish implementation as well
     }
 
     @Test

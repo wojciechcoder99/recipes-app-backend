@@ -75,8 +75,9 @@ public class RecipeServiceImpl extends BaseServiceImpl<Recipe, RecipeDTO> {
 
     @Override
     public Iterable<Recipe> convertToCollectionOfEntities(Iterable<RecipeDTO> dtosCollection) {
-        // TODO: Finish implementation
-        return null;
+        return StreamSupport.stream(dtosCollection.spliterator(), false)
+                .map(this::convertToEntity)
+                .collect(Collectors.toList());
     }
 
     @Override
