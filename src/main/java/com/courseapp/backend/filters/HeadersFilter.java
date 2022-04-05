@@ -10,19 +10,23 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.util.Optional;
 
-@Component
-@Order(1)
+
 public class HeadersFilter implements Filter {
     @Override
     public void doFilter(ServletRequest request, ServletResponse response, FilterChain chain) throws IOException, ServletException {
         if (request instanceof HttpServletRequest httpRequest) {
             if (containsHeaders(httpRequest)) {
                 chain.doFilter(request, response);
+                addHeaders((HttpServletResponse)response);
             }
             else {
                 sendError((HttpServletResponse) response);
             }
         }
+    }
+
+    private void addHeaders(HttpServletResponse response) {
+        response.addHeader("Recipe-server", "Recipe-response");
     }
 
     private boolean containsHeaders(HttpServletRequest httpRequest) {
