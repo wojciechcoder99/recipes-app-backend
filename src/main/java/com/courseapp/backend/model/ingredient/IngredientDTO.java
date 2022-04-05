@@ -15,6 +15,10 @@ public class IngredientDTO extends RepresentationModel<IngredientDTO> implements
     String name;
     int amount;
 
+    public IngredientDTO() {
+
+    }
+
     public IngredientDTO(long id, String name, int amount) {
         this.id = id;
         this.name = name;
