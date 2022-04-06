@@ -1,5 +1,6 @@
 package com.courseapp.backend.controllers;
 
+import com.courseapp.backend.annotations.AllowExceptionHandler;
 import com.courseapp.backend.model.recipe.Recipe;
 import com.courseapp.backend.model.recipe.RecipeDTO;
 import com.courseapp.backend.services.BaseService;
@@ -22,8 +23,8 @@ import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.linkTo;
 @RestController
 @RequestMapping("api/recipes")
 @Validated
+@AllowExceptionHandler
 public class RecipeController {
-    //TODO: Add another abstract layer for controllers
     @Autowired
     private BaseService<RecipeDTO, Recipe> recipeService;
 
@@ -69,12 +70,6 @@ public class RecipeController {
         return recipeService.deleteById(id)
                 .map(ResponseEntity::ok)
                 .orElseGet(()-> ResponseEntity.notFound().build());
-    }
-
-    @ExceptionHandler(ConstraintViolationException.class)
-    @ResponseStatus(HttpStatus.BAD_REQUEST)
-    public ResponseEntity<String> handleConstraintViolationException(ConstraintViolationException e){
-        return new ResponseEntity<>("not valid due to validation error: " + e.getMessage(), HttpStatus.BAD_REQUEST);
     }
 
     private RecipeDTO addLinkToSingleObject(RecipeDTO recipeDTO) {
