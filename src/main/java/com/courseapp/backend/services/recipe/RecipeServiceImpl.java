@@ -5,19 +5,13 @@ import com.courseapp.backend.model.ingredient.IngredientDTO;
 import com.courseapp.backend.model.recipe.Recipe;
 import com.courseapp.backend.model.recipe.RecipeDTO;
 import com.courseapp.backend.repositories.IGenericRepository;
-import com.courseapp.backend.repositories.IngredientRepository;
 import com.courseapp.backend.repositories.RecipeRepository;
 import com.courseapp.backend.services.BaseService;
 import com.courseapp.backend.services.BaseServiceImpl;
-import org.modelmapper.Converter;
 import org.modelmapper.ModelMapper;
-import org.modelmapper.TypeMap;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.HashSet;
 import java.util.List;
 import java.util.Optional;
 import java.util.Set;
@@ -25,6 +19,7 @@ import java.util.stream.Collectors;
 import java.util.stream.StreamSupport;
 
 @Service
+@Transactional
 public class RecipeServiceImpl extends BaseServiceImpl<Recipe, RecipeDTO> {
 
     private final RecipeRepository recipeRepository;

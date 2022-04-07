@@ -1,19 +1,13 @@
 package com.courseapp.backend.services;
 
-import com.courseapp.backend.model.ingredient.Ingredient;
-import com.courseapp.backend.model.ingredient.IngredientDTO;
-import com.courseapp.backend.model.recipe.Recipe;
-import com.courseapp.backend.model.recipe.RecipeDTO;
 import com.courseapp.backend.repositories.IGenericRepository;
+import io.micrometer.core.annotation.Timed;
 import org.modelmapper.ModelMapper;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Propagation;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Optional;
-import java.util.stream.Collectors;
-import java.util.stream.StreamSupport;
 
 @Transactional
 public abstract class BaseServiceImpl<GenericEntity, GenericDTO> implements BaseService<GenericDTO, GenericEntity>{
@@ -27,9 +21,16 @@ public abstract class BaseServiceImpl<GenericEntity, GenericDTO> implements Base
     protected abstract IGenericRepository<GenericEntity, Long> getRepositoryInstance();
     protected abstract boolean isEntityExistsAndMatchId(long id, Optional<GenericDTO> dto);
 
+    // TODO: something doesn't work, check that
     @Override
+    //@Timed(value = "recipes.get.time", histogram = true, percentiles = {0.3, 0.6, 0.95})
     public Iterable<GenericDTO> findAll() {
         return convertToCollectionOfDTOs(getRepositoryInstance().findAll());
+    }
+
+    @Override
+    public Iterable<GenericDTO> findAll(Pageable pageable) {
+        return convertToCollectionOfDTOs(getRepositoryInstance().findAll(pageable).getContent());
     }
 
     @Override
@@ -64,4 +65,5 @@ public abstract class BaseServiceImpl<GenericEntity, GenericDTO> implements Base
     public Iterable<GenericDTO> saveAll(Iterable<GenericDTO> dto) {
         return convertToCollectionOfDTOs(getRepositoryInstance().saveAll(convertToCollectionOfEntities(dto)));
     }
+
 }

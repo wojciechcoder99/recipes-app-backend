@@ -5,13 +5,13 @@ import com.courseapp.backend.model.recipe.Recipe;
 import com.courseapp.backend.model.recipe.RecipeDTO;
 import com.courseapp.backend.services.BaseService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.repository.query.Param;
 import org.springframework.hateoas.CollectionModel;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
-import javax.validation.ConstraintViolationException;
 import javax.validation.Valid;
 import javax.validation.constraints.Min;
 import java.util.List;
@@ -31,6 +31,15 @@ public class RecipeController {
     @GetMapping
     public ResponseEntity<Iterable<RecipeDTO>> getALlRecipes() {
         List<RecipeDTO> recipeDTOs = (List<RecipeDTO>) recipeService.findAll();
+        return fetchRecipes((List<RecipeDTO>) recipeService.findAll());
+    }
+
+    @GetMapping(params = "page")
+    public ResponseEntity<Iterable<RecipeDTO>> getALlRecipes(@Param("page") int page) {
+        return fetchRecipes((List<RecipeDTO>) recipeService.findAll(Pageable.ofSize(page)));
+    }
+
+    private ResponseEntity<Iterable<RecipeDTO>> fetchRecipes(List<RecipeDTO> recipeDTOs) {
         recipeDTOs = recipeDTOs.stream()
                 .map(this::addLinkToSingleObject)
                 .map(this::addLinkToCollection)
