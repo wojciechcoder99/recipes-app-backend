@@ -38,17 +38,15 @@ public class RecipeServiceImpl extends BaseServiceImpl<Recipe, RecipeDTO> {
     }
 
     @Override
-    protected boolean isEntityExistsAndMatchId(long id, Optional<RecipeDTO> dto) {
-        return recipeRepository.existsById(id) && dto.get().getId() == id;
+    protected boolean isEntityExistsAndMatchId(long id, RecipeDTO dto) {
+        return recipeRepository.existsById(id) && dto.getId() == id;
     }
 
     @Override
-    public Optional<RecipeDTO> save(Optional<RecipeDTO> dto) {
+    public Optional<RecipeDTO> save(RecipeDTO dto) {
         Recipe entity = null;
-        if (dto.isPresent()) {
-            entity = convertToEntity(dto.get());
-            entity = recipeRepository.save(entity);
-        }
+        entity = convertToEntity(dto);
+        entity = recipeRepository.save(entity);
         return Optional.of(convertToDTO(entity));
     }
 

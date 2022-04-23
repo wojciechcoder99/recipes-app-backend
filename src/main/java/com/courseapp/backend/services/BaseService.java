@@ -9,8 +9,8 @@ public interface BaseService<GenericDTO, GenericEntity> extends
     Iterable<GenericDTO> findAll();
     Iterable<GenericDTO> findAll(Pageable pageable);
     Optional<GenericDTO> findById(long id);
-    Optional<GenericDTO> save(Optional<GenericDTO> dto);
-    Optional<GenericDTO> update(long id, Optional<GenericDTO> dto);
+    Optional<GenericDTO> save(GenericDTO dto);
+    Optional<GenericDTO> update(long id, GenericDTO dto);
     Optional<GenericDTO> deleteById(long id);
     Iterable<GenericDTO> saveAll(Iterable<GenericDTO> dto);
 }

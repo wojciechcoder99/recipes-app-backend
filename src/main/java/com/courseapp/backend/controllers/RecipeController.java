@@ -57,21 +57,33 @@ public class RecipeController {
     }
 
     @PostMapping
-    public ResponseEntity<RecipeDTO> createRecipe(@Valid @RequestBody RecipeDTO recipe) {
-       return  recipeService.save(Optional.ofNullable(recipe))
-                .map(this::addLinkToSingleObject)
-                .map(this::addLinkToCollection)
-                .map(ResponseEntity::ok)
-                .orElseGet(() -> ResponseEntity.badRequest().build());
+    public ResponseEntity<RecipeDTO> createRecipe(@Valid @RequestBody RecipeDTO recipeDTO) {
+        Optional<RecipeDTO> tempRecipeDTO = Optional.ofNullable(recipeDTO);
+        if (tempRecipeDTO.isPresent()) {
+            return  recipeService.save(tempRecipeDTO.get())
+                    .map(this::addLinkToSingleObject)
+                    .map(this::addLinkToCollection)
+                    .map(ResponseEntity::ok)
+                    .orElseGet(() -> ResponseEntity.badRequest().build());
+        }
+        else {
+            throw new NullPointerException();
+        }
     }
 
     @PutMapping("/{id}")
     public ResponseEntity<RecipeDTO> updateRecipe(@Min(1) @PathVariable long id, @Valid @RequestBody RecipeDTO recipeDTO) {
-        return recipeService.update(id, Optional.ofNullable(recipeDTO))
-                .map(this::addLinkToSingleObject)
-                .map(this::addLinkToCollection)
-                .map(ResponseEntity::ok)
-                .orElseGet(() -> ResponseEntity.notFound().build());
+        Optional<RecipeDTO> tempRecipeDTO = Optional.ofNullable(recipeDTO);
+        if (tempRecipeDTO.isPresent()) {
+            return recipeService.update(id, tempRecipeDTO.get())
+                    .map(this::addLinkToSingleObject)
+                    .map(this::addLinkToCollection)
+                    .map(ResponseEntity::ok)
+                    .orElseGet(() -> ResponseEntity.notFound().build());
+        }
+        else {
+            throw new NullPointerException();
+        }
     }
 
     @DeleteMapping("/{id}")

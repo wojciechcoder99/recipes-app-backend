@@ -30,8 +30,8 @@ public class IngredientServiceImpl extends BaseServiceImpl<Ingredient, Ingredien
     }
 
     @Override
-    protected boolean isEntityExistsAndMatchId(long id, Optional<IngredientDTO> dto) {
-        return ingredientRepository.existsById(id) && dto.get().getId() == id;
+    protected boolean isEntityExistsAndMatchId(long id, IngredientDTO dto) {
+        return ingredientRepository.existsById(id) && dto.getId() == id;
     }
 
     @Override

@@ -19,7 +19,7 @@ public abstract class BaseServiceImpl<GenericEntity, GenericDTO> implements Base
     }
 
     protected abstract IGenericRepository<GenericEntity, Long> getRepositoryInstance();
-    protected abstract boolean isEntityExistsAndMatchId(long id, Optional<GenericDTO> dto);
+    protected abstract boolean isEntityExistsAndMatchId(long id, GenericDTO dto);
 
     // TODO: something doesn't work, check that
     @Override
@@ -39,14 +39,14 @@ public abstract class BaseServiceImpl<GenericEntity, GenericDTO> implements Base
     }
 
     @Override
-    public Optional<GenericDTO> save(Optional<GenericDTO> dto) {
-        return dto.map(o -> convertToDTO(getRepositoryInstance().save(convertToEntity(o))));
+    public Optional<GenericDTO> save(GenericDTO dto) {
+        return Optional.of(convertToDTO(getRepositoryInstance().save(convertToEntity(dto))));
     }
 
     @Override
-    public Optional<GenericDTO> update(long id, Optional<GenericDTO> dto) {
-        if (dto.isPresent() && isEntityExistsAndMatchId(id, dto)) {
-            return dto.map(o -> convertToDTO(getRepositoryInstance().save(convertToEntity(o))));
+    public Optional<GenericDTO> update(long id, GenericDTO dto) {
+        if (isEntityExistsAndMatchId(id, dto)) {
+            return  Optional.of(convertToDTO(getRepositoryInstance().save(convertToEntity(dto))));
         }
         return Optional.empty();
     }
